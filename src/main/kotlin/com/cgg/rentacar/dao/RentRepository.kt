@@ -1,4 +1,6 @@
 package com.cgg.rentacar.dao
 
-interface RentRepository {
-}
+import com.cgg.rentacar.model.entity.RentEntity
+import org.springframework.data.jpa.repository.JpaRepository
+
+interface RentRepository : JpaRepository<RentEntity, String>
