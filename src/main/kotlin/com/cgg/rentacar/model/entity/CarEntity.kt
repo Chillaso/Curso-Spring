@@ -7,9 +7,9 @@ import kotlin.collections.HashSet
 @Entity
 data class CarEntity(
         /**El idCar es la matricula del coche, entendiendo que no se puede repetir nunca*/
-        @Id @GeneratedValue(strategy = GenerationType.AUTO) var idCar: String,
-        var model: String,
-        var doors: Int,
+        @Id @GeneratedValue(strategy = GenerationType.AUTO) var idCar: String = "",
+        var model: String = "",
+        var doors: Int = 0,
         /**
             Entendemos que es "val" porque podemos annadir nuevas tarifas, pero
             no podemos borrar las demas
