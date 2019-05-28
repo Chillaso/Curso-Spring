@@ -1,15 +1,16 @@
-package com.cgg.rentacar.model.entity
+package com.cgg.rentacar.model
 
 import java.util.*
 import javax.persistence.*
 import kotlin.collections.HashSet
 
 @Entity
-data class CarEntity(
+data class Car(
         /**El idCar es la matricula del coche, entendiendo que no se puede repetir nunca*/
-        @Id @GeneratedValue(strategy = GenerationType.AUTO) var idCar: String = "",
+        @Id @GeneratedValue(strategy = GenerationType.AUTO) var idCar: Int = 0,
+        var carPlate: String = "",
+        var registrationYear: String = "01/01/1970",
         var model: String = "",
-        var doors: Int = 0,
         /**
             Entendemos que es "val" porque podemos annadir nuevas tarifas, pero
             no podemos borrar las demas
@@ -19,5 +20,5 @@ data class CarEntity(
             ordenados por fecha. Podria haber dos tarifas que tengan el mismo dia, por ejemplo
             que se hayan equivocado al meter la tarifa, pero entonces su precio seria diferente
          */
-        @ManyToMany(fetch = FetchType.LAZY) val tariff: Set<TariffEntity> = TreeSet(),
-        @OneToMany(fetch = FetchType.LAZY, mappedBy = "carRented") val rent: Set<RentEntity> = HashSet())
+        @ManyToMany(fetch = FetchType.LAZY) val tariff: Set<Tariff> = TreeSet(),
+        @OneToMany(fetch = FetchType.LAZY, mappedBy = "carRented") val rent: Set<Rent> = HashSet())

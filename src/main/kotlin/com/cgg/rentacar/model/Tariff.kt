@@ -1,17 +1,13 @@
-package com.cgg.rentacar.model.entity
+package com.cgg.rentacar.model
 
-import java.time.LocalDate
-import javax.persistence.Entity
-import javax.persistence.FetchType
-import javax.persistence.Id
-import javax.persistence.ManyToMany
+import javax.persistence.*
 
 @Entity
-data class TariffEntity(
+data class Tariff(
         //Duda, como compongo este idTariff de forma que represente, coche,fecha,precio.
-        @Id val idTariff: String,
-        val startDate: LocalDate,
-        val endDate: LocalDate,
+        @Id @GeneratedValue(strategy = GenerationType.AUTO) val idTariff: Int,
+        val startDate: String,
+        val endDate: String,
         val price: Double,
         /*
             No tengo claro como reflejar esto, porque podria darse el caso en el que quisieramos
@@ -27,5 +23,5 @@ data class TariffEntity(
             Si queremos que una tarifa pertenezca a un unico coche, entonces debemos de tener un identificador
             compuesto que nos diga a que coche pertenece la tarifa
          */
-        @ManyToMany(fetch = FetchType.LAZY, mappedBy = "tariff") val cars: List<CarEntity> = ArrayList()
+        @ManyToMany(fetch = FetchType.LAZY, mappedBy = "tariff") val cars: List<Car> = ArrayList()
 )

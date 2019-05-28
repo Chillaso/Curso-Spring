@@ -1,6 +1,8 @@
 package com.cgg.rentacar.dao
 
-import com.cgg.rentacar.model.entity.ClientEntity
+import com.cgg.rentacar.model.Client
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.stereotype.Repository
 
-interface ClientRepository : JpaRepository<ClientEntity, Int>
+@Repository
+interface ClientRepository : JpaRepository<Client, Int>

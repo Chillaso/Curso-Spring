@@ -1,6 +1,8 @@
 package com.cgg.rentacar.dao
 
-import com.cgg.rentacar.model.entity.TariffEntity
+import com.cgg.rentacar.model.Tariff
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.stereotype.Repository
 
-interface TariffRepository : JpaRepository<TariffEntity, String>
+@Repository
+interface TariffRepository : JpaRepository<Tariff, String>
