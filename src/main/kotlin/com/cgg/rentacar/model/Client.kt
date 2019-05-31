@@ -8,5 +8,5 @@ data class Client(
         @Id @GeneratedValue(strategy = GenerationType.AUTO) val idClient: Int,
         val dni: String,
         val name: String,
-        @OneToMany(fetch = FetchType.LAZY, mappedBy = "clientRented") var rents: Set<Rent> = TreeSet()
+        @OneToMany(fetch = FetchType.LAZY, mappedBy = "clientRented") val rents: Set<Rent> = TreeSet()
 )

@@ -1,40 +1,39 @@
 package com.cgg.rentacar.controller
 
 import com.cgg.rentacar.dto.CarDto
+import com.cgg.rentacar.mapper.Mapper
+import com.cgg.rentacar.model.Car
 import com.cgg.rentacar.service.BasicCrudService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 
-@RestController
-@RequestMapping("/car")
+@RestController("/car")
 class CarController
 {
-
-    @Autowired
-    lateinit var service: BasicCrudService<CarDto, Int>
+    @Autowired lateinit var service: BasicCrudService<Car, Int>
+    @Autowired lateinit var mapper: Mapper<CarDto, Car>
 
     @GetMapping
-    fun getAllCars(): Collection<CarDto>
-    {
-        return service.findAll()
-    }
+    fun findAll(@RequestParam("page") page: Int?,
+                @RequestParam("size") size: Int?): Page<CarDto> =
+            service.findAll(PageRequest.of(page ?: 0, size ?: 20)).let { mapper.mapEntityPageToDtoPage(it) }
 
     @GetMapping("/{id}")
-    fun getCarById(@PathVariable("id") id: Int): CarDto
-    {
-        try
-        {
-            return service.findById(id)
-        }
-        catch (e: NullPointerException)
-        {
-            throw ResponseStatusException(HttpStatus.BAD_REQUEST, e.message)
-        }
-    }
+    fun findById(@PathVariable("id", required = true) id: Int): CarDto = service.findById(id).let { mapper.mapToDto(it.get()) }
 
     @PostMapping
-    fun createCar(@RequestBody dto: CarDto): CarDto = service.create(dto)
+    fun create(@RequestBody dto: CarDto): CarDto = mapper.mapToEntity(dto)
+                                                   .let { service.create(it) }
+                                                   .let { mapper.mapToDto(it) }
 
+    @PutMapping("/{id}")
+    fun update(@RequestBody dto: CarDto, @PathVariable("id", required = true) id: Int ) =
+            service.update(id, mapper.mapToEntity(dto))
+
+    @DeleteMapping("/{id}")
+    fun deleteById(@PathVariable("id") id: Int) = service.deleteById(id)
 }
