@@ -11,7 +11,8 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 
-@RestController("/car")
+@RestController
+@RequestMapping("/car")
 class CarController
 {
     @Autowired lateinit var service: BasicCrudService<Car, Int>

@@ -41,7 +41,7 @@ class ControllerExceptionAdvicer
             """
 
     @ExceptionHandler(NotFoundException::class, NullPointerException::class, NoSuchElementException::class, EmptyResultDataAccessException::class)
-    fun notFoundException(e: Exception): ResponseEntity<String> = ResponseEntity(DICK_RESPONSE, HttpStatus.I_AM_A_TEAPOT)
+    fun notFoundException(e: Exception): ResponseEntity<String> = ResponseEntity(e.message, HttpStatus.NOT_FOUND)
 }
 
 

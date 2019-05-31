@@ -12,8 +12,7 @@ import java.util.*
 @Service
 class CarServiceImpl : BasicCrudService<Car, Int>
 {
-    @Autowired
-    lateinit var repository: CarRepository
+    @Autowired lateinit var repository: CarRepository
 
     override fun findAll(pageable: Pageable): Page<Car> = repository.findAll(pageable)
 

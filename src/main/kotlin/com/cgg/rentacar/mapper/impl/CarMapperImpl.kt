@@ -24,7 +24,7 @@ class CarMapperImpl : Mapper<CarDto, Car>
 
     override fun mapEntityPageToDtoPage(s: Page<Car>): Page<CarDto>
     {
-        if(s.isEmpty) throw NotFoundException("")
+        if(s.isEmpty) throw NotFoundException("Not found")
 
         //TODO: Encontrar una manera mas sencilla y rapida de hacer esto
         val dtoBuffer = mutableListOf<CarDto>()
