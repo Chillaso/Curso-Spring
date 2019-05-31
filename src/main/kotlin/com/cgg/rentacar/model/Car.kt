@@ -1,13 +1,12 @@
 package com.cgg.rentacar.model
 
-import java.time.LocalDate
 import java.util.*
 import javax.persistence.*
 import kotlin.collections.HashSet
 
 @Entity
 data class Car(
-        @Id @GeneratedValue(strategy = GenerationType.AUTO) val idCar: Int = -1,
+        @Id @GeneratedValue(strategy = GenerationType.AUTO) val idCar: Int = 0,
         val carPlate: String = "",
         val registrationYear: String = "",
         val model: String = "",
