@@ -9,44 +9,22 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
 import java.lang.Exception
 import java.lang.IllegalArgumentException
+import java.time.format.DateTimeParseException
 
 @ControllerAdvice("com.cgg.rentacar.controller")
 class ControllerExceptionAdvicer
 {
-    val DICK_RESPONSE: String =
-            """
-....... ▄▄ ▄▄
-......▄▌▒▒▀▒▒▐▄
-.... ▐▒▒▒▒▒▒▒▒▒▌
-... ▐▒▒▒▒▒▒▒▒▒▒▒▌
-....▐▒▒▒▒▒▒▒▒▒▒▒▌
-....▐▀▄▄▄▄▄▄▄▄▄▀▌
-....▐░░░░░░░░░░░▌
-....▐░░░░░░░░░░░▌
-....▐░░░░░░░░░░░▌
-....▐░░░░░░░░░░░▌
-....▐░░░░░░░░░░░▌
-....▐░░░░░░░░░░░▌
-....▐░░░░░░░░░░░▌
-....▐░░░░░░░░░░░▌
-....▐░░░░░░░░░░░▌
-....▐░░░░░░░░░░░▌
-....▐░░░░░░░░░░░▌
-...▄█▓░░░░░░░░░▓█▄
-..▄▀░░░░░░░░░░░░░ ▀▄
-.▐░░░░░░░▀▄▒▄▀░░░░░░▌
-▐░░░░░░░▒▒▐▒▒░░░░░░░▌
-▐▒░░░░░▒▒▒▐▒▒▒░░░░░▒▌
-.▀▄▒▒▒▒▒▄▀▒▀▄▒▒▒▒▒▄▀
-.. ▀▀▀▀▀ ▀▀▀▀▀
-            """
-
     @ExceptionHandler(NotFoundException::class, NullPointerException::class, NoSuchElementException::class)
     fun notFoundException(e: Exception): ResponseEntity<String> = ResponseEntity(e.message, HttpStatus.NOT_FOUND)
 
+    /**
+     * Excepcion para cuando recibimos unos argumentos que no corresponden con el metodo que estamos usando.
+     */
     @ExceptionHandler(IllegalArgumentException::class)
-    fun illegalArgumentException(e: Exception): ResponseEntity<String> = ResponseEntity(e.message.plus("\n".plus(DICK_RESPONSE)),
-                                                                        HttpStatus.BAD_REQUEST)
+    fun illegalArgumentException(e: Exception): ResponseEntity<String> = ResponseEntity(e.message,HttpStatus.BAD_REQUEST)
+
+    @ExceptionHandler(DateTimeParseException::class)
+    fun dateTimeParseException(e: Exception): ResponseEntity<String> = ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
 }
 
 

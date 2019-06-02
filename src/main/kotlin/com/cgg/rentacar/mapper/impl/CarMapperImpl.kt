@@ -7,20 +7,14 @@ import javassist.NotFoundException
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
 import org.springframework.stereotype.Component
+import java.time.LocalDate
 
 @Component
 class CarMapperImpl : Mapper<CarDto, Car>
 {
-    override fun mapToEntity(t: CarDto): Car = Car(t.idCar, t.carPlate, t.registrationYear, t.model)
+    override fun mapToEntity(t: CarDto): Car = Car(t.idCar, t.carPlate, LocalDate.parse(t.registrationYear), t.model)
 
-    override fun mapToDto(s: Car): CarDto = CarDto(s.idCar, s.carPlate, s.registrationYear, s.model)
-
-/*    override fun mapDtoPageToEntityPage(t: Page<CarDto>): Page<Car>
-    {
-        val dtoBuffer = mutableListOf<Car>()
-        t.forEach { dtoBuffer.add(mapToEntity(it)) }
-        return PageImpl(dtoBuffer, t.pageable, t.totalElements)
-    }*/
+    override fun mapToDto(s: Car): CarDto = CarDto(s.idCar, s.carPlate, s.registrationYear.toString(), s.model)
 
     override fun mapEntityPageToDtoPage(s: Page<Car>): Page<CarDto>
     {

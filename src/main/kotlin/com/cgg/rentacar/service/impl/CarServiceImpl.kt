@@ -15,13 +15,18 @@ class CarServiceImpl : BasicCrudService<Car, Int>
     @Autowired
     lateinit var repository: CarRepository
 
+    /**
+     * Metodo que busca todos los coches disponibles en la base de datos
+     * y lo devuelve paginados.
+     * @param Pageable pageable - Objeto pageable necesario para la paginacion
+     * @return Page<Car> - resultado pageado
+     */
     override fun findAll(pageable: Pageable): Page<Car> = repository.findAll(pageable)
 
     /**
      * Busca un coche por ID y mapea el resultado a un DTO
      * @param Int id - Id por el que buscar, no nulo.
      * @return CarDto car - Entidad coche mapeado a DTO.
-     * @throws NullPointerException si no fue encontrado nada.
      */
     override fun findById(id: Int): Optional<Car> = repository.findById(id)
 
@@ -54,5 +59,9 @@ class CarServiceImpl : BasicCrudService<Car, Int>
             repository.findById(id)
                     .map { repository.save(Car(id, s.carPlate, s.registrationYear, s.model, s.tariff, s.rent)) }
 
+    /**
+     * Borra un coche por un id
+     * @param Int id
+     */
     override fun deleteById(id: Int) = repository.deleteById(id)
 }

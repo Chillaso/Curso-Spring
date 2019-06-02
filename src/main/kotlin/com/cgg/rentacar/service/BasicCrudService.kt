@@ -15,12 +15,6 @@ interface BasicCrudService<S,ID> {
     fun findAll(pageable: Pageable): Page<S>
     fun findById(id: ID): Optional<S>
     fun create(s: S): Optional<S>
-    /**
-     * Metodo de update de una entidad, que valida si se esta insertando o no mediante este metodo
-     * @param S s - Tipo del objeto sobre el que operamos
-     * @return Optional.empty en caso de que se este intentando insertar un objeto mediante
-     * este metodo de entrada. Optional<S> si se ha realizado correctamente el merge.
-     */
     fun update(id: ID, s: S): Optional<S>
     fun deleteById(id: ID)
 }
