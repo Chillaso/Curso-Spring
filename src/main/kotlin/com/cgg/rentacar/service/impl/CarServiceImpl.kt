@@ -12,7 +12,8 @@ import java.util.*
 @Service
 class CarServiceImpl : BasicCrudService<Car, Int>
 {
-    @Autowired lateinit var repository: CarRepository
+    @Autowired
+    lateinit var repository: CarRepository
 
     override fun findAll(pageable: Pageable): Page<Car> = repository.findAll(pageable)
 
@@ -34,7 +35,9 @@ class CarServiceImpl : BasicCrudService<Car, Int>
      * @return Optional.empty en caso de que se este intentando insertar un objeto mediante
      * este metodo de entrada. Optional<S> si se ha realizado correctamente el merge.
      */
-    override fun update(id: Int, s: Car): Optional<Car> = repository.findById(id).map { repository.save(s) }
+    override fun update(id: Int, s: Car): Optional<Car> =
+            repository.findById(id)
+                    .map { repository.save(Car(id, s.carPlate, s.registrationYear, s.model, s.tariff, s.rent)) }
 
     override fun deleteById(id: Int) = repository.deleteById(id)
 }

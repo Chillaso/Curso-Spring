@@ -4,12 +4,14 @@ import com.cgg.rentacar.dto.CarDto
 import com.cgg.rentacar.mapper.Mapper
 import com.cgg.rentacar.model.Car
 import com.cgg.rentacar.service.BasicCrudService
+import javassist.NotFoundException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
+import java.lang.IllegalArgumentException
 
 @RestController
 @RequestMapping("/car")
@@ -32,8 +34,10 @@ class CarController
                                                    .let { mapper.mapToDto(it) }
 
     @PutMapping("/{id}")
-    fun update(@RequestBody dto: CarDto, @PathVariable("id", required = true) id: Int ) =
-            service.update(id, mapper.mapToEntity(dto))
+    fun update(@RequestBody dto: CarDto, @PathVariable("id", required = true) id: Int)
+    {
+        if(!service.update(id, mapper.mapToEntity(dto)).isPresent) throw IllegalArgumentException("Can't update car if doesn't exists")
+    }
 
     @DeleteMapping("/{id}")
     fun deleteById(@PathVariable("id") id: Int) = service.deleteById(id)
