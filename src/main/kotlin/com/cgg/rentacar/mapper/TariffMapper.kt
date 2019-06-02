@@ -1,4 +1,4 @@
-package com.cgg.rentacar.mapper.impl
+package com.cgg.rentacar.mapper
 
 import com.cgg.rentacar.dto.TariffDto
 import com.cgg.rentacar.model.Tariff

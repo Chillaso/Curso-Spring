@@ -1,8 +1,9 @@
 package com.cgg.rentacar.service
 
-import com.cgg.rentacar.dto.TariffDto
+import com.cgg.rentacar.model.Tariff
+import java.util.*
 
 interface TariffService
 {
-    fun create(dto: TariffDto): TariffDto
+    fun create(dto: Tariff): Optional<Tariff>
 }
