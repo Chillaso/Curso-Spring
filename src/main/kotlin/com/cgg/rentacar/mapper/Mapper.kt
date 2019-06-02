@@ -11,6 +11,5 @@ interface Mapper<T, S> {
 
     fun mapToEntity(t: T): S
     fun mapToDto(s: S): T
-    //fun mapDtoPageToEntityPage(t: Page<T>): Page<S>
     fun mapEntityPageToDtoPage(s: Page<S>): Page<T>
 }
