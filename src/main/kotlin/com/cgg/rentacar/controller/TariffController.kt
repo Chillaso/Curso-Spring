@@ -13,7 +13,8 @@ import java.util.*
 
 @RestController
 @RequestMapping("/tariff")
-class TariffController {
+class TariffController
+{
 
     @Autowired lateinit var service: TariffService
     @Autowired lateinit var mapper: TariffMapper

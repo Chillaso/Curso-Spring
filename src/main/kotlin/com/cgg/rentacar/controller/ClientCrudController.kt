@@ -12,7 +12,7 @@ import java.util.*
 
 @RestController
 @RequestMapping("/client")
-class ClientController 
+class ClientCrudController: BasicCrudController<ClientDto, Int>
 {
     @Autowired
     lateinit var service: BasicCrudService<Client, Int>
@@ -20,15 +20,15 @@ class ClientController
     lateinit var mapper: Mapper<ClientDto, Client>
 
     @GetMapping
-    fun findAll(@RequestParam("page") page: Int?,
+    override fun findAll(@RequestParam("page") page: Int?,
                 @RequestParam("size") size: Int?): Page<ClientDto> =
             service.findAll(PageRequest.of(page ?: 0, size ?: 20)).let { mapper.mapEntityPageToDtoPage(it) }
 
     @GetMapping("/{id}")
-    fun findById(@PathVariable("id", required = true) id: Int): ClientDto = service.findById(id).let { mapper.mapToDto(it.get()) }
+    override fun findById(@PathVariable("id", required = true) id: Int): ClientDto = service.findById(id).let { mapper.mapToDto(it.get()) }
 
     @PostMapping
-    fun create(@RequestBody dto: ClientDto): ClientDto
+    override fun create(@RequestBody dto: ClientDto): ClientDto
     {
         //TODO: Refactorizar para mejorar la legibilidad
         val result: Optional<Client> = mapper.mapToEntity(dto).let { service.create(it) }
@@ -39,11 +39,11 @@ class ClientController
     }
 
     @PutMapping("/{id}")
-    fun update(@RequestBody dto: ClientDto, @PathVariable("id", required = true) id: Int)
+    override fun update(@RequestBody dto: ClientDto, @PathVariable("id", required = true) id: Int)
     {
         if (!service.update(id, mapper.mapToEntity(dto)).isPresent) throw IllegalArgumentException("Can't update Client if doesn't exists")
     }
 
     @DeleteMapping("/{id}")
-    fun deleteById(@PathVariable("id") id: Int) = service.deleteById(id)
+    override fun deleteById(@PathVariable("id") id: Int) = service.deleteById(id)
 }
