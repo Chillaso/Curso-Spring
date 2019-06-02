@@ -25,7 +25,22 @@ class CarServiceImpl : BasicCrudService<Car, Int>
      */
     override fun findById(id: Int): Optional<Car> = repository.findById(id)
 
-    override fun create(s: Car): Car = repository.save(s)
+    /**
+     * Metodo que comprueba primeramente si el id del coche existe, en caso de que sea asi
+     * retornamos un Optional vacio indicando que esta operacion no se puede realizar, ya que
+     * estariamos si no haciendo un update, en vez de un create.
+     * En caso contrario procedemos al guardado normal
+     * @param Car s - Coche, con o sin id previo.
+     * @return Optional con el valor del coche, o Optional.empty en caso de exista un coche con el id.
+     */
+    override fun create(s: Car): Optional<Car>
+    {
+        return when (repository.findById(s.idCar).isPresent)
+        {
+            true -> Optional.empty()
+            false -> Optional.of(repository.save(s))
+        }
+    }
 
     /**
      * Metodo de update de una entidad, que valida si se esta insertado o no mediante
