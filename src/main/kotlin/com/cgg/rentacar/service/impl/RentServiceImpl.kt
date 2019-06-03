@@ -71,6 +71,7 @@ class RentServiceImpl : RentService
     override fun findByProfit(startDate: LocalDate, endDate: LocalDate): Optional<Car>
     {
         //TODO: Refactorizar para tener un mejor control del codigo
+        //FIXME: La query me parece que no es asi, porque habia que agruparlo por dias tambien
         val rent = Optional.ofNullable(repository.findFirstByEndDateBetweenOrderByCarTariffPriceDesc(startDate, endDate))
         return if (rent.isPresent)
             Optional.of(rent.get().car)
