@@ -22,19 +22,19 @@ class RentMapperImpl : Mapper<RentDto, Rent>
 
     override fun mapToEntity(t: RentDto): Rent = Rent(
             t.idRent,
-            LocalDate.parse(t.startDateRent),
-            LocalDate.parse(t.endDateRent),
+            LocalDate.parse(t.startDate),
+            LocalDate.parse(t.endDate),
             t.price,
-            carMapper.mapToEntity(t.carRented),
-            clientMapper.mapToEntity(t.clientRented))
+            carMapper.mapToEntity(t.car),
+            clientMapper.mapToEntity(t.client))
 
     override fun mapToDto(s: Rent): RentDto = RentDto(
             s.idRent,
-            s.startDateRent.toString(),
-            s.endDateRent.toString(),
+            s.startDate.toString(),
+            s.endDate.toString(),
             s.price,
-            carMapper.mapToDto(s.carRented),
-            clientMapper.mapToDto(s.clientRented))
+            carMapper.mapToDto(s.car),
+            clientMapper.mapToDto(s.client))
 
     override fun mapEntityPageToDtoPage(s: Page<Rent>): Page<RentDto>
     {

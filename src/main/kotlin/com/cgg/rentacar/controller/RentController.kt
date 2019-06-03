@@ -1,21 +1,27 @@
 package com.cgg.rentacar.controller
 
+import com.cgg.rentacar.dto.CarDto
 import com.cgg.rentacar.dto.RentDto
 import com.cgg.rentacar.mapper.Mapper
+import com.cgg.rentacar.model.Car
 import com.cgg.rentacar.model.Rent
-import com.cgg.rentacar.service.BasicCrudService
+import com.cgg.rentacar.service.RentService
+import javassist.NotFoundException
+import org.omg.CosNaming.NamingContextPackage.NotFound
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.web.bind.annotation.*
+import java.time.LocalDate
 import java.util.*
 
 @RestController
 @RequestMapping("/client/car")
-class RentCrudController: BasicCrudController<RentDto, Int>
+class RentController: BasicCrudController<RentDto, Int>
 {
-    @Autowired lateinit var service: BasicCrudService<Rent, Int>
+    @Autowired lateinit var service: RentService
     @Autowired lateinit var mapper: Mapper<RentDto, Rent>
+    @Autowired lateinit var carMapper: Mapper<CarDto, Car>
 
     @GetMapping
     override fun findAll(@RequestParam("page") page: Int?,
@@ -43,4 +49,16 @@ class RentCrudController: BasicCrudController<RentDto, Int>
 
     @DeleteMapping("/{id}")
     override fun deleteById(@PathVariable("id") id: Int) = service.deleteById(id)
+
+    @GetMapping("/profit")
+    fun findByProfit(@RequestParam("start", required = true) start: String,
+                     @RequestParam("end", required = true) end: String): CarDto
+    {
+        //TODO: Refactor para que sea mas legible
+        val car = service.findByProfit(LocalDate.parse(start), LocalDate.parse(end))
+        if(car.isPresent)
+            return carMapper.mapToDto(car.get())
+        else
+            throw NotFoundException("No hay coches rentables")
+    }
 }

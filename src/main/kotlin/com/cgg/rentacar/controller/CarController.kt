@@ -4,16 +4,18 @@ import com.cgg.rentacar.dto.CarDto
 import com.cgg.rentacar.mapper.Mapper
 import com.cgg.rentacar.model.Car
 import com.cgg.rentacar.service.BasicCrudService
+import com.cgg.rentacar.service.RentService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.web.bind.annotation.*
 import java.lang.IllegalArgumentException
+import java.time.LocalDate
 import java.util.*
 
 @RestController
 @RequestMapping("/car")
-class CarCrudController: BasicCrudController<CarDto, Int>
+class CarController: BasicCrudController<CarDto, Int>
 {
     @Autowired
     lateinit var service: BasicCrudService<Car, Int>
@@ -46,4 +48,5 @@ class CarCrudController: BasicCrudController<CarDto, Int>
 
     @DeleteMapping("/{id}")
     override fun deleteById(@PathVariable("id") id: Int) = service.deleteById(id)
+
 }

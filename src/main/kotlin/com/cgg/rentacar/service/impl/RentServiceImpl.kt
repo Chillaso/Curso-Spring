@@ -4,6 +4,7 @@ import com.cgg.rentacar.dao.RentRepository
 import com.cgg.rentacar.model.Car
 import com.cgg.rentacar.model.Rent
 import com.cgg.rentacar.service.BasicCrudService
+import com.cgg.rentacar.service.RentService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -12,9 +13,10 @@ import java.time.LocalDate
 import java.util.*
 
 @Service
-class RentServiceImpl: BasicCrudService<Rent, Int>
+class RentServiceImpl : RentService
 {
-    @Autowired lateinit var repository: RentRepository
+    @Autowired
+    lateinit var repository: RentRepository
 
     /**
      * Metodo que busca todos los coches disponibles en la base de datos
@@ -58,7 +60,7 @@ class RentServiceImpl: BasicCrudService<Rent, Int>
      */
     override fun update(id: Int, s: Rent): Optional<Rent> =
             repository.findById(id)
-                    .map { repository.save(Rent(id, s.startDateRent, s.endDateRent, s.price, s.carRented, s.clientRented)) }
+                    .map { repository.save(Rent(id, s.startDate, s.endDate, s.price, s.car, s.client)) }
 
     /**
      * Borra un coche por un id
@@ -66,6 +68,13 @@ class RentServiceImpl: BasicCrudService<Rent, Int>
      */
     override fun deleteById(id: Int) = repository.deleteById(id)
 
-    fun findByProfit(startDate: LocalDate, endDate: LocalDate): Collection<Car> =
-            repository.findAllCarRentedByEndDateRentBetweenOrderByPrice(startDate,endDate)
+    override fun findByProfit(startDate: LocalDate, endDate: LocalDate): Optional<Car>
+    {
+        //TODO: Refactorizar para tener un mejor control del codigo
+        val rent = Optional.ofNullable(repository.findFirstByEndDateBetweenOrderByCarTariffPriceDesc(startDate, endDate))
+        return if (rent.isPresent)
+            Optional.of(rent.get().car)
+        else
+            Optional.empty()
+    }
 }

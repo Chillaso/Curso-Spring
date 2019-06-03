@@ -10,9 +10,9 @@ data class Rent(
          * y la fecha de inicio y fin
          */
         @Id @GeneratedValue(strategy = GenerationType.AUTO) val idRent: Int = 0,
-        val startDateRent: LocalDate = LocalDate.now(),
-        val endDateRent: LocalDate = LocalDate.now(),
+        val startDate: LocalDate = LocalDate.now(),
+        val endDate: LocalDate = LocalDate.now(),
         val price: Double = 0.0,
-        @ManyToOne(fetch = FetchType.LAZY) val carRented: Car = Car(),
-        @ManyToOne(fetch = FetchType.LAZY) val clientRented: Client = Client()
+        @ManyToOne(fetch = FetchType.LAZY) val car: Car = Car(),
+        @ManyToOne(fetch = FetchType.LAZY) val client: Client = Client()
 )

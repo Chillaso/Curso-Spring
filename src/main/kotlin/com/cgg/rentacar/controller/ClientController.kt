@@ -12,7 +12,7 @@ import java.util.*
 
 @RestController
 @RequestMapping("/client")
-class ClientCrudController: BasicCrudController<ClientDto, Int>
+class ClientController: BasicCrudController<ClientDto, Int>
 {
     @Autowired
     lateinit var service: BasicCrudService<Client, Int>

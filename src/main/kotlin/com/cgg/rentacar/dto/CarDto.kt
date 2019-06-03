@@ -8,4 +8,4 @@ data class CarDto(
         val idCar: Int,
         @NotNull val carPlate: String,
         @NotNull @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$") @PastOrPresent val registrationYear: String,
-        @NotNull val model: String)
+        val model: String = "")

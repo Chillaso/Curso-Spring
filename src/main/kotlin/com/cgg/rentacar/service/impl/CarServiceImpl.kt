@@ -64,4 +64,5 @@ class CarServiceImpl : BasicCrudService<Car, Int>
      * @param Int id
      */
     override fun deleteById(id: Int) = repository.deleteById(id)
+
 }

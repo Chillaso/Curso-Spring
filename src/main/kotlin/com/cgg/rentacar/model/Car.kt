@@ -12,4 +12,4 @@ data class Car(
         val registrationYear: LocalDate = LocalDate.now(),
         val model: String = "",
         @ManyToMany(fetch = FetchType.LAZY) val tariff: Set<Tariff> = TreeSet(),
-        @OneToMany(fetch = FetchType.LAZY, mappedBy = "carRented") val rent: Set<Rent> = HashSet())
+        @OneToMany(fetch = FetchType.LAZY, mappedBy = "car") val rent: Set<Rent> = HashSet())
